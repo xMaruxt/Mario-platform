@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myMario", "myMario\myMario.csproj", "{1CFBC20A-D128-4F97-941B-9EDAC4533C69}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1CFBC20A-D128-4F97-941B-9EDAC4533C69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CFBC20A-D128-4F97-941B-9EDAC4533C69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CFBC20A-D128-4F97-941B-9EDAC4533C69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CFBC20A-D128-4F97-941B-9EDAC4533C69}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {43DF7F43-2080-4079-A401-D06D2B872C79}
+	EndGlobalSection
+EndGlobal
