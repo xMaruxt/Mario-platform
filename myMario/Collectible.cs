@@ -13,7 +13,7 @@ namespace myMario
         public int width, height;
         public Rectangle bounds;
         public Player player;
-
+        public Coin coin;
         public Collectible(ContentManager content, Player player, String tex, int x, int y)
         {
             this.player = player;
@@ -57,7 +57,7 @@ namespace myMario
 
         public virtual void collect()
         {
-            //override and do some stuff
+            
         }
 
     }

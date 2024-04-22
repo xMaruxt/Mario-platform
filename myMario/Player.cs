@@ -28,8 +28,10 @@ namespace myMario
         public Rectangle bot, top, right, left, bounds;
         public bool standingR = true, standingL = false, walkingRight = false, walkingLeft = false, onAir = true;
         public int size = 0;
-        public int coin = 0;
-        public int lives = 0;
+        public int collectedPoints = 0;
+        public int lives = 3;
+        public int score = 0;
+        public int pointForOneLife = 1000;
         public Player(ContentManager content)
         {
             Player.content = content;
@@ -498,6 +500,19 @@ namespace myMario
             bounds.X = (int)position.X;
             bounds.Y = (int)position.Y;
             return bounds;
+        }
+
+        public Player updatestats(Player mario)
+        {
+            //Player player = mario;
+            int lifeGained = mario.collectedPoints / pointForOneLife;
+            if (lifeGained > 0)
+            {
+                mario.collectedPoints -= pointForOneLife * lifeGained;
+                mario.lives += lifeGained;
+            }
+
+            return mario;
         }
     }
 }

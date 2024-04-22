@@ -10,8 +10,10 @@ namespace myMario
 {
     class Coin : Collectible
     {
+        
         static SoundEffect altin;
         public readonly int PointValue = 10;
+       
         public Coin(ContentManager content, Player player, string tex, int x, int y) : base(content, player, tex, x, y)
         {
             altin = content.Load<SoundEffect>("Songs/altin");
@@ -20,6 +22,9 @@ namespace myMario
         public override void collect()
         {
             altin.Play(1, 0, 0);
+            player.collectedPoints += PointValue;
+            player.updatestats(player);
         }
+
     }
 }
