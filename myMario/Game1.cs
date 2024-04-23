@@ -15,28 +15,23 @@ namespace myMario
         private SpriteBatch _spriteBatch;
 
         Player mario;
+
         Vector2 bgposition = new Vector2(0, 0);
-        Ground ground, ground2, ground3, kutular1, boru1, boru2, boru4, boru5, kutular2, kutular3, boru3,
-               kutular4, kutular5, kutular6, kutular7, kutular8, miniboru1;
-
-        Coin coin1, coin2;
-
-        MushroomGround mantarkutu1, mantarkutu2;
-
-        CoinGround coinkutu1, coinkutu2, coinkutu3, coinkutu4, coinkutu5;
-
+       
         List<Ground> currentGroundList;
-        
         List<MushroomGround> currentMushroomGroundList;
         List<Mushroom> currentMushroomList;
         List<Coin> currentCoinList;
         List<CoinGround> currentCoinGroundList;
+        List<Monster> currentMonsterList;
+
         Texture2D background;
         Song song;
         SoundEffect hop;
-        KeyboardState ks1, ks2;
-        TimeSpan x = new TimeSpan(0, 0, 0);
+        KeyboardState ks1;
+        TimeSpan x = new(0, 0, 0);
         private SpriteFont hudFont;
+        private SpriteFont hudGameOverFont;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -51,81 +46,58 @@ namespace myMario
         {
             // TODO: Add your initialization logic here
             mario = new Player(Content);
-            ground = new Ground(Content, mario, "Texture/terrain", 0, 600);
-            ground2 = new Ground(Content, mario, "Texture/terrain", 1280, 600);
-            ground3 = new Ground(Content, mario, "Texture/terrain", 2560, 600);
-
-            coin1 = new Coin(Content, mario, "Texture/coin", 1020, 275);
-            coin2 = new Coin(Content, mario, "Texture/coin", 1252, 275); 
-
-            kutular1 = new Ground(Content, mario, "Texture/kutular", 500, 440);
-            kutular2 = new Ground(Content, mario, "Texture/kutular", 1250, 320);
-            kutular3 = new Ground(Content, mario, "Texture/kutular", 1530, 440);
-            kutular4 = new Ground(Content, mario, "Texture/kutular", 1920, 400);
-            kutular5 = new Ground(Content, mario, "Texture/kutular", 2300, 370);
-            kutular6 = new Ground(Content, mario, "Texture/kutular", 2500, 320);
-            kutular7 = new Ground(Content, mario, "Texture/kutular", 2700, 270);
-            kutular8 = new Ground(Content, mario, "Texture/kutular", 3090, 350);
-
-            mantarkutu1 = new MushroomGround(Content, mario, "Texture/kutu", 596, 280);
-            mantarkutu2 = new MushroomGround(Content, mario, "Texture/kutu", 2558, 170);
-
-            coinkutu1 = new CoinGround(5, Content, mario, "Texture/kutu", 452, 440);
-            coinkutu2 = new CoinGround(3, Content, mario, "Texture/kutu", 548, 280);
-            coinkutu3 = new CoinGround(2, Content, mario, "Texture/kutu", 1968, 225);
-            coinkutu4 = new CoinGround(1, Content, mario, "Texture/kutu", 2016, 225);
-            coinkutu5 = new CoinGround(1, Content, mario, "Texture/kutu", 3282, 350);
-
-            boru1 = new Ground(Content, mario, "Texture/pipe", 900, 482);
-            boru2 = new Ground(Content, mario, "Texture/pipe", 1100, 482);
-            boru3 = new Ground(Content, mario, "Texture/pipe", 1800, 482);
-            boru4 = new Ground(Content, mario, "Texture/pipe", 2970, 482);
-            boru5 = new Ground(Content, mario, "Texture/pipe", 3400, 482);
-            miniboru1 = new Ground(Content, mario, "Texture/pipe_mini", 2170, 514);
 
             currentMushroomList = new List<Mushroom>();
 
             currentGroundList = new List<Ground>
             {
-                new Ground(Content, mario, "Texture/terrain", 0, 600),
-                ground2,
-                ground3,
-                kutular1,
-                kutular2,
-                kutular3,
-                kutular4,
-                kutular5,
-                kutular6,
-                kutular7,
-                kutular8,
-                boru1,
-                boru2,
-                boru3,
-                boru4,
-                boru5,
-                miniboru1
+                new (Content, mario, "Texture/terrain", 0, 600),
+                new (Content, mario, "Texture/terrain", 1280, 600),
+                new (Content, mario, "Texture/terrain", 2560, 600),
+                new (Content, mario, "Texture/kutular", 500, 440),
+                new (Content, mario, "Texture/kutular", 1250, 320),
+                new (Content, mario, "Texture/kutular", 1530, 440),
+                new (Content, mario, "Texture/kutular", 1920, 400),
+                new (Content, mario, "Texture/kutular", 2300, 370),
+                new (Content, mario, "Texture/kutular", 2500, 320),
+                new (Content, mario, "Texture/kutular", 2700, 270),
+                new (Content, mario, "Texture/kutular", 3090, 350),
+                new (Content, mario, "Texture/pipe", 900, 482),
+                new (Content, mario, "Texture/pipe", 1100, 482),
+                new (Content, mario, "Texture/pipe", 2970, 482),
+                new (Content, mario, "Texture/pipe", 3400, 482),
+                new (Content, mario, "Texture/pipe_mini", 2170, 514)
             };
+
             currentCoinList = new List<Coin>
             {
-                coin1,
-                coin2,
-
+                new (Content, mario, "Texture/coin", 1020, 275),
+                new (Content, mario, "Texture/coin", 1252, 275),
             };
 
             currentMushroomGroundList = new List<MushroomGround>
             {
-                mantarkutu1,
-                mantarkutu2
+                 new (Content, mario, "Texture/kutu", 596, 280),
+                 new (Content, mario, "Texture/kutu", 2558, 170),
             };
 
             currentCoinGroundList = new List<CoinGround>
             {
-                coinkutu1,
-                coinkutu2,
-                coinkutu3,
-                coinkutu4,
-                coinkutu5
+                new (5, Content, mario, "Texture/kutu", 452, 440),
+                new (3, Content, mario, "Texture/kutu", 548, 280),
+                new (2, Content, mario, "Texture/kutu", 1968, 225),
+                new (1, Content, mario, "Texture/kutu", 2016, 225),
+                new (1, Content, mario, "Texture/kutu", 3282, 350),
             };
+
+            currentMonsterList = new List<Monster>
+            {
+               new (Content, mario, "Texture/banzaibill_60", 1450, 540, "banzaibill"),
+               new (Content, mario, "Texture/koopa_60", 1650, 540, "koopa"),
+               new (Content, mario, "Texture/bigbooR", 1850, 540, "bigboo"),
+               new (Content, mario, "Texture/blargg_120R", 2070, 480, "blargg"),   
+            };
+
             base.Initialize();
         }
 
@@ -141,13 +113,13 @@ namespace myMario
             MediaPlayer.Volume = (float)0.1;
             hop = Content.Load<SoundEffect>("Songs/jump");
             hudFont = Content.Load<SpriteFont>("Font/Hud");
+            hudGameOverFont = Content.Load<SpriteFont>("Font/Hud_GameOver");
 
             // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
-
             Console.WriteLine("MarioX: " + mario.position.X + " y: " + mario.position.Y + " velx: " + mario.velocity.X);
             // Console.WriteLine("Ground: " + ground.position.X + " y: " + ground.position.Y);
             if (mario.position.X < 740)
@@ -155,36 +127,55 @@ namespace myMario
                 mario.cameraRight = false;
             }
 
+            foreach (var mgnd in currentMushroomGroundList)
+            {
+                if (mgnd.mushroomActivated() && !mgnd.addedToList)
+                {
+                    currentMushroomList.Add(mgnd.m);
+                    mgnd.addedToList = true;
+                }
+            }
+
             foreach (var gnd in currentGroundList)
             {
                 gnd.checkCollision();
-                
+                foreach (var mon in currentMonsterList)
+                {
+                    gnd.checkMonsterCollision(mon);
+                }
             }
+
+            foreach (var mgnd in currentMushroomGroundList)
+            {
+                mgnd.checkCollision();
+                foreach (var mon in currentMonsterList)
+                {
+                    mgnd.checkMonsterCollision(mon);
+                }
+            }
+
+            foreach (var m in currentMushroomList)
+            {
+                m.checkCollision();
+            }
+
             foreach (var c in currentCoinList)
             {
                 c.checkCollision();
-                
             }
-            foreach (var mgnd in currentMushroomGroundList)
+            foreach (var ck in currentCoinGroundList)
             {
-                if (mgnd.mushroomActivated() && !mgnd.addedToList)
+                ck.checkCollision();
+                foreach (var mon in currentMonsterList)
                 {
-                    currentMushroomList.Add(mgnd.m);
-                    mgnd.addedToList = true;
+                    ck.checkMonsterCollision(mon);
                 }
             }
-            foreach (var mgnd in currentMushroomGroundList)
+            foreach (var mon in currentMonsterList)
             {
-                if (mgnd.mushroomActivated() && !mgnd.addedToList)
-                {
-                    currentMushroomList.Add(mgnd.m);
-                    mgnd.addedToList = true;
-                }
+                mon.checkCollision();
             }
 
-
-
-            
 
             if (mario.position.X <= 0)
             {
@@ -195,6 +186,12 @@ namespace myMario
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            if(Keyboard.GetState().IsKeyDown(Keys.R))
+            {
+                mario.position = new Vector2(0, 600);
+                mario.lives = 3;
+                mario.score = 0;
+            }
             //prevent jump sound looping
             ks1 = Keyboard.GetState();
             if (ks1.IsKeyDown(Keys.W) && !mario.jumping)
@@ -209,7 +206,6 @@ namespace myMario
                 mario.jumping = false;
             }
 
-            ks2 = ks1;
 
             if (Keyboard.GetState().IsKeyDown(Keys.A) && !mario.collusingLeft)
             {
@@ -270,7 +266,11 @@ namespace myMario
                 {
                     ck.position.X -= mario.velocity.X;
                 }
-               
+                foreach (var mon in currentMonsterList)
+                {
+                    mon.position.X -= mario.velocity.X;
+                }
+
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.X))
@@ -289,10 +289,8 @@ namespace myMario
                 }
             }
 
-
-
             mario.findState('n');
-            mario.myState();
+           // mario.myState();
             mario.gravity();
             if (mario.velocity.X > 6)
             {
@@ -302,12 +300,17 @@ namespace myMario
             {
                 mario.velocity.X = -6;
             }
-           
+            foreach (var mon in currentMonsterList)
+            {
+                mon.move(mon.name);
+            }
+
             mario.move();
 
             if (mario.position.Y > 720)
             {
                 Console.WriteLine("GAME OVER!");
+                mario.position = new Vector2(0, 600);
             }
             // TODO: Add your update logic here
 
@@ -345,6 +348,15 @@ namespace myMario
             {
                 _spriteBatch.Draw(mgnd.texture, mgnd.position, Color.White);
             }
+            foreach (var mon in currentMonsterList)
+            {
+                SpriteEffects spriteEffects = SpriteEffects.None;
+                if(mon.rotation == 1)
+                {
+                    spriteEffects = SpriteEffects.FlipHorizontally;
+                }
+                _spriteBatch.Draw(mon.texture, mon.position, null, Color.White, 0, Vector2.Zero, 1, spriteEffects, 0);
+            }
             // TODO: Add your drawing code here
             DrawHud();
             _spriteBatch.End();
@@ -355,7 +367,13 @@ namespace myMario
         private void DrawHud()
         {
             Rectangle titleSafeArea = GraphicsDevice.Viewport.TitleSafeArea;
-
+            if (mario.lives == 0)
+            {
+                string gameOverText = "GAME OVER";
+                Vector2 textSize = hudGameOverFont.MeasureString(gameOverText);
+                Vector2 position = new Vector2((GraphicsDevice.Viewport.Width - textSize.X) / 2, (GraphicsDevice.Viewport.Height - textSize.Y) / 2);
+                DrawShadowedString(hudGameOverFont, gameOverText, position, Color.Red);
+            }
             // Draw Life
             DrawShadowedString(hudFont, "LIFE: " + mario.lives.ToString(), new Vector2(0, 0), Color.Yellow);
             // Draw score

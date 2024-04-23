@@ -68,14 +68,15 @@ namespace myMario
 
         public void takeDamage()
         {
-            if (size == 0)
+            if (lives == 0)
             {
                 Console.WriteLine("MARIO DIED!");
+                position = new Vector2(0, 480);
             }
             else
             {
-                size--;
-                if (size == 0)
+                lives--;
+                if (lives == 0)
                 {
                     position.Y += 48;
                 }
@@ -381,7 +382,6 @@ namespace myMario
             else
             {
                 velocity.Y = 0;
-
             }
 
         }
@@ -422,7 +422,7 @@ namespace myMario
                 }
                 else
                 {
-                    velocity.Y -= 20;
+                    velocity.Y -= 25;
                 }
 
             }

@@ -105,19 +105,19 @@ namespace myMario
                 player.collusingRight = false;
             }
         }
-        //public void checkMonsterCollision(Monster mon)
-        //{
-        //    refresh();
-        //    if (boxCollider.Intersects(mon.getLeft()))
-        //    {
-        //        mon.rotation = 0;
-        //    }
+        public void checkMonsterCollision(Monster mon)
+        {
+            refresh();
+            if (boxCollider.Intersects(mon.getLeft()))
+            {
+                mon.rotation = 0;
+            }
 
-        //    if (boxCollider.Intersects(mon.getRight()))
-        //    {
-        //        mon.rotation = 1;
-        //    }
-        //}
+            if (boxCollider.Intersects(mon.getRight()))
+            {
+                mon.rotation = 1;
+            }
+        }
 
 
         public void checkCollision()
