@@ -87,7 +87,7 @@ namespace myMario
 
             currentGroundList = new List<Ground>
             {
-                ground,
+                new Ground(Content, mario, "Texture/terrain", 0, 600),
                 ground2,
                 ground3,
                 kutular1,
