@@ -23,6 +23,7 @@ namespace myMario
         {
             altin.Play(1, 0, 0);
             player.collectedPoints += PointValue;
+            player.score += PointValue;
             player.updatestats(player);
         }
 
