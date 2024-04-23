@@ -359,7 +359,7 @@ namespace myMario
             // Draw Life
             DrawShadowedString(hudFont, "LIFE: " + mario.lives.ToString(), new Vector2(0, 0), Color.Yellow);
             // Draw score
-            DrawShadowedString(hudFont, "SCORE: " + mario.collectedPoints.ToString(), new Vector2(0,20), Color.Yellow);
+            DrawShadowedString(hudFont, "SCORE: " + mario.score.ToString(), new Vector2(0,20), Color.Yellow);
 
 
         }
