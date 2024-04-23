@@ -111,7 +111,9 @@ namespace myMario
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(song);
             MediaPlayer.Volume = (float)0.1;
+            float volume = 0.3f; // Metà volume
             hop = Content.Load<SoundEffect>("Songs/jump");
+            hop.Play(volume, 0, 0);
             hudFont = Content.Load<SpriteFont>("Font/Hud");
             hudGameOverFont = Content.Load<SpriteFont>("Font/Hud_GameOver");
 
