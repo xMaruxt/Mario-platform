@@ -47,7 +47,10 @@ namespace myMario
             // TODO: Add your initialization logic here
             mario = new Player(Content);
 
-            currentMushroomList = new List<Mushroom>();
+            currentMushroomList = new List<Mushroom>
+            {
+                new (Content, mario, "Texture/fungo_60C", 588, 220),
+            };
 
             currentGroundList = new List<Ground>
             {
@@ -69,10 +72,18 @@ namespace myMario
                 new (Content, mario, "Texture/pipe_mini", 2170, 514)
             };
 
+            
             currentCoinList = new List<Coin>
             {
+                new (Content, mario, "Texture/coin", 50, 552),
+                new (Content, mario, "Texture/coin", 100, 552),
+                new (Content, mario, "Texture/coin", 150, 552),
+                new (Content, mario, "Texture/coin", 200, 552),
+                new (Content, mario, "Texture/coin", 250, 552),
+                new (Content, mario, "Texture/coin", 300, 552),
                 new (Content, mario, "Texture/coin", 1020, 275),
                 new (Content, mario, "Texture/coin", 1252, 275),
+                
             };
 
             currentMushroomGroundList = new List<MushroomGround>
@@ -337,6 +348,10 @@ namespace myMario
             foreach (Ground gnd in currentGroundList)
             {
                 _spriteBatch.Draw(gnd.texture, gnd.position, Color.White);
+            }
+            foreach (Mushroom msh in currentMushroomList)
+            {
+                _spriteBatch.Draw(msh.texture, msh.position, Color.White);
             }
             foreach (var c in currentCoinList)
             {

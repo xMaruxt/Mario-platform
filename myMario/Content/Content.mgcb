@@ -189,6 +189,18 @@
 /processorParam:TextureFormat=Color
 /build:Texture/fungo_60.png
 
+#begin Texture/fungo_60C.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/fungo_60C.png
+
 #begin Texture/goomba.png
 /importer:TextureImporter
 /processor:TextureProcessor
