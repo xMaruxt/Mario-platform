@@ -32,18 +32,6 @@ namespace myMario
             speed = 10;
         }
 
-
-
-
-        public void checkCollision()
-        {
-            refresh();
-            if (bounds.Intersects(monster.getBounds()))
-            {
-                dispose();
-            }
-        }
-
         public virtual void refresh()
         {
             bounds.X = (int)position.X;

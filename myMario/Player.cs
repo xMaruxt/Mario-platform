@@ -515,10 +515,5 @@ namespace myMario
 
             return mario;
         }
-
-        public void shoot()
-        {
-            Bullet bullet = new Bullet(content, this, "Texture/bullet");
-        }
     }
 }

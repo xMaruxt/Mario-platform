@@ -24,7 +24,7 @@ namespace myMario
         List<Coin> currentCoinList;
         List<CoinGround> currentCoinGroundList;
         List<Monster> currentMonsterList;
-        
+        List<Bullet> Bulletslist = new List<Bullet>();
 
         Texture2D background;
         Song song;
@@ -263,6 +263,18 @@ namespace myMario
 
             }
 
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                Bullet bullet = new Bullet(Content, mario, "Texture/fireball2Transparent");
+                Bulletslist.Add(bullet);
+            }
+
+            foreach (var bullet in Bulletslist)
+            {
+                bullet.move();
+                bullet.refresh();
+            }
+
             if (mario.collusingRight == false && mario.cameraRight && Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 foreach (var gnd in currentGroundList)
@@ -323,6 +335,7 @@ namespace myMario
                 mon.move(mon.name);
             }
 
+
             mario.move();
 
             if (mario.position.Y > 720)
@@ -380,6 +393,15 @@ namespace myMario
                 }
                 _spriteBatch.Draw(mon.texture, mon.position, null, Color.White, 0, Vector2.Zero, 1, spriteEffects, 0);
             }
+
+            if(Bulletslist != null)
+            {
+                foreach (var bullet in Bulletslist)
+                {
+                    _spriteBatch.Draw(bullet.texture, bullet.position, Color.White);
+                }
+            }
+            
 
             if(mario.size == 2)
             {   
