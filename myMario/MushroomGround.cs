@@ -34,7 +34,7 @@ namespace myMario
                 if (counter == 1 && m == null)
                 {
                     counter--;
-                    m = new Mushroom(content, player, "Texture/mantar", (int)position.X, (int)position.Y - 48);
+                    m = new Mushroom(content, player, "Texture/fungo_60C", (int)position.X, (int)position.Y - 48);
                     texture = off;
                 }
                 if (!player.collusingTop)

@@ -107,6 +107,13 @@ namespace myMario
             }
         }
 
+
+        public Rectangle getBounds()
+        {
+            refresh();
+            return bounds;
+        }
+
         public void checkCollision()
         {
             refbounds();

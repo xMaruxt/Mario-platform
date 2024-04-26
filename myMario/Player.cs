@@ -32,6 +32,7 @@ namespace myMario
         public int lives = 3;
         public int score = 0;
         public int pointForOneLife = 1000;
+        public bool isShooting = false;
         public Player(ContentManager content)
         {
             Player.content = content;
@@ -102,7 +103,7 @@ namespace myMario
                 Console.WriteLine("STATE: standing right");
             }
         }
-       public void findState(char c)
+        public void findState(char c)
         {
             if (c == 'l')
             {
@@ -513,6 +514,11 @@ namespace myMario
             }
 
             return mario;
+        }
+
+        public void shoot()
+        {
+            Bullet bullet = new Bullet(content, this, "Texture/bullet");
         }
     }
 }

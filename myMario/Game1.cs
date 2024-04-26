@@ -24,6 +24,7 @@ namespace myMario
         List<Coin> currentCoinList;
         List<CoinGround> currentCoinGroundList;
         List<Monster> currentMonsterList;
+        
 
         Texture2D background;
         Song song;
@@ -32,6 +33,9 @@ namespace myMario
         TimeSpan x = new(0, 0, 0);
         private SpriteFont hudFont;
         private SpriteFont hudGameOverFont;
+
+        
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -72,19 +76,21 @@ namespace myMario
                 new (Content, mario, "Texture/pipe_mini", 2170, 514)
             };
 
-            
-            currentCoinList = new List<Coin>
+            //coins on the ground
+            currentCoinList = new List<Coin>();
+            for (int i = 0; i< 10; i++)
             {
-                new (Content, mario, "Texture/coin", 50, 552),
-                new (Content, mario, "Texture/coin", 100, 552),
-                new (Content, mario, "Texture/coin", 150, 552),
-                new (Content, mario, "Texture/coin", 200, 552),
-                new (Content, mario, "Texture/coin", 250, 552),
-                new (Content, mario, "Texture/coin", 300, 552),
-                new (Content, mario, "Texture/coin", 1020, 275),
-                new (Content, mario, "Texture/coin", 1252, 275),
-                
-            };
+                Coin coin = new Coin(Content, mario, "Texture/coin2", 50 * (i + 1), 552);
+                currentCoinList.Add(coin);
+            }
+            //special position coins
+            currentCoinList.AddRange(new List<Coin>
+            {
+                new (Content, mario, "Texture/coin2", 300, 552),
+                new (Content, mario, "Texture/coin2", 1020, 275),
+                new (Content, mario, "Texture/coin2", 1252, 275),
+            });
+           
 
             currentMushroomGroundList = new List<MushroomGround>
             {
@@ -301,7 +307,6 @@ namespace myMario
                     mario.size = 0;
                 }
             }
-
             mario.findState('n');
            // mario.myState();
             mario.gravity();
@@ -345,6 +350,7 @@ namespace myMario
             _spriteBatch.Draw(background, bgposition, Color.White);
             _spriteBatch.Draw(mario.currenttexture, mario.position, Color.White);
 
+            
             foreach (Ground gnd in currentGroundList)
             {
                 _spriteBatch.Draw(gnd.texture, gnd.position, Color.White);
@@ -374,6 +380,16 @@ namespace myMario
                 }
                 _spriteBatch.Draw(mon.texture, mon.position, null, Color.White, 0, Vector2.Zero, 1, spriteEffects, 0);
             }
+
+            if(mario.size == 2)
+            {   
+                if (mario.isShooting)
+                {
+                   //crea il bullet
+                   
+                }
+            }
+                      
             // TODO: Add your drawing code here
             DrawHud();
             _spriteBatch.End();
