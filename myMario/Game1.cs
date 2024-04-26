@@ -22,11 +22,11 @@ namespace myMario
         List<Ground> currentGroundList;
         List<MushroomGround> currentMushroomGroundList;
         List<Mushroom> currentMushroomList;
+
         List<Coin> currentCoinList;
         List<CoinGround> currentCoinGroundList;
         List<Monster> currentMonsterList;
         List<Bullet> Bulletslist = new List<Bullet>();
-        List<Ground> lastGrounditem;
         Texture2D background;
         Song song;
         SoundEffect hop;
@@ -52,6 +52,12 @@ namespace myMario
         {
             // TODO: Add your initialization logic here
             mario = new Player(Content);
+
+
+            currentMushroomList = new List<Mushroom>
+            {
+                //new (Content, mario, "Texture/fungo_60C", 588, 220),
+            };
 
             currentGroundList = new List<Ground>
             {
@@ -143,7 +149,6 @@ namespace myMario
             {
                 mario.cameraRight = false;
             }
-
             foreach (var mgnd in currentMushroomGroundList)
             {
                 if (mgnd.mushroomActivated() && !mgnd.addedToList)
@@ -170,7 +175,10 @@ namespace myMario
                     mgnd.checkMonsterCollision(mon);
                 }
             }
-
+            foreach (var m in currentMushroomList)
+            {
+                m.checkCollision();
+            }
             foreach (var c in currentCoinList)
             {
                 c.checkCollision();
@@ -286,6 +294,7 @@ namespace myMario
                 {
                     gnd.position.X -= mario.velocity.X;
                 }
+
                 foreach (var mgnd in currentMushroomGroundList)
                 {
                     mgnd.position.X -= mario.velocity.X;
@@ -369,7 +378,11 @@ namespace myMario
             {
                 _spriteBatch.Draw(gnd.texture, gnd.position, Color.White);
             }
-            
+            foreach (Mushroom msh in currentMushroomList)
+            {
+                _spriteBatch.Draw(msh.texture, msh.position, Color.White);
+            }
+
             foreach (var c in currentCoinList)
             {
                 _spriteBatch.Draw(c.texture, c.position, Color.White);

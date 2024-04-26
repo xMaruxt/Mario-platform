@@ -419,11 +419,11 @@ namespace myMario
                 jumping = true;
                 if (velocity.X > 3 || velocity.X < -3)
                 {
-                    velocity.Y -= 25;
+                    velocity.Y -= 30;
                 }
                 else
                 {
-                    velocity.Y -= 20;
+                    velocity.Y -= 25;
                 }
 
             }
