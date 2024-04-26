@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace myMario
         public Vector2 position;
         public int width, height;
         public int speed = 10;
-        public Rectangle bounds;
+        public Rectangle boxCollider, right, left;
         public Player player;
         public Monster monster;
 
@@ -28,19 +29,18 @@ namespace myMario
             width = texture.Width;
             height = texture.Height;
             position = new Vector2(player.position.X, player.position.Y);
-            bounds = new Rectangle((int)position.X, (int)position.Y, width, height);
-            speed = 10;
+            boxCollider = new Rectangle((int)position.X, (int)position.Y, width, height);
         }
 
         public virtual void refresh()
         {
-            bounds.X = (int)position.X;
-            bounds.Y = (int)position.Y;
+            boxCollider.X = (int)position.X;
+            boxCollider.Y = (int)position.Y;
         }
 
         public void dispose()
         {
-            position.X = -1280;
+            position.X = -2000;
             position.Y = 0;
             refresh();
         }
@@ -50,6 +50,27 @@ namespace myMario
             position.X += speed;
             refresh();
         }
-        
+        public Rectangle getBounds()
+        {
+            refresh();
+            return boxCollider;
+        }
+        public void checkMonsterCollision(Monster mon)
+        {
+            refresh();
+            if (boxCollider.Intersects(mon.getLeft()))
+            {
+               mon.hitByBullet = true;
+               dispose();
+               speed = 0;
+            }
+
+            if (boxCollider.Intersects(mon.getRight()))
+            {
+                mon.hitByBullet = true;
+                dispose();
+                speed = 0;
+            }
+        }
     }
 }

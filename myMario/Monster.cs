@@ -13,10 +13,12 @@ namespace myMario
         public int width, height;
         public Rectangle bounds, right, left, top;
         public Player player;
+        public Bullet bullet;
         public int rotation = 0;
         public bool collusingRight, collusingLeft;
         public int jumpCounter = 0;
         public string name;
+        public bool hitByBullet = false;
 
         public Monster(ContentManager content, Player player, String tex, int x, int y, string name)
         {
@@ -152,6 +154,12 @@ namespace myMario
                     }
                 }
             }
+            if (hitByBullet)
+            {
+                position.X = -2000;
+                player.score += 5;
+                hitByBullet = false;
+            }            
         }
 
         public Rectangle getLeft()

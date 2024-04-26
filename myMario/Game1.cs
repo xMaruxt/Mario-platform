@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 
 namespace myMario
@@ -25,7 +26,7 @@ namespace myMario
         List<CoinGround> currentCoinGroundList;
         List<Monster> currentMonsterList;
         List<Bullet> Bulletslist = new List<Bullet>();
-
+        List<Ground> lastGrounditem;
         Texture2D background;
         Song song;
         SoundEffect hop;
@@ -34,7 +35,8 @@ namespace myMario
         private SpriteFont hudFont;
         private SpriteFont hudGameOverFont;
 
-        
+        private float lastBulletTime = 0;
+        private float bulletInterval = 0.5f;
 
         public Game1()
         {
@@ -50,11 +52,6 @@ namespace myMario
         {
             // TODO: Add your initialization logic here
             mario = new Player(Content);
-
-            currentMushroomList = new List<Mushroom>
-            {
-                new (Content, mario, "Texture/fungo_60C", 588, 220),
-            };
 
             currentGroundList = new List<Ground>
             {
@@ -73,12 +70,12 @@ namespace myMario
                 new (Content, mario, "Texture/pipe", 1100, 482),
                 new (Content, mario, "Texture/pipe", 2970, 482),
                 new (Content, mario, "Texture/pipe", 3400, 482),
-                new (Content, mario, "Texture/pipe_mini", 2170, 514)
+                new (Content, mario, "Texture/pipe_mini", 2170, 514),
             };
 
             //coins on the ground
             currentCoinList = new List<Coin>();
-            for (int i = 0; i< 10; i++)
+            for (int i = 0; i< 16; i++)
             {
                 Coin coin = new Coin(Content, mario, "Texture/coin2", 50 * (i + 1), 552);
                 currentCoinList.Add(coin);
@@ -128,7 +125,7 @@ namespace myMario
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(song);
             MediaPlayer.Volume = (float)0.1;
-            float volume = 0.3f; // Metà volume
+            float volume = 0.1f; // Metà volume
             hop = Content.Load<SoundEffect>("Songs/jump");
             hop.Play(volume, 0, 0);
             hudFont = Content.Load<SpriteFont>("Font/Hud");
@@ -140,7 +137,8 @@ namespace myMario
         protected override void Update(GameTime gameTime)
         {
             Console.WriteLine("MarioX: " + mario.position.X + " y: " + mario.position.Y + " velx: " + mario.velocity.X);
-            // Console.WriteLine("Ground: " + ground.position.X + " y: " + ground.position.Y);
+            
+             //Console.WriteLine("Ground: " + ground.position.X + " y: " + ground.position.Y);
             if (mario.position.X < 740)
             {
                 mario.cameraRight = false;
@@ -171,11 +169,6 @@ namespace myMario
                 {
                     mgnd.checkMonsterCollision(mon);
                 }
-            }
-
-            foreach (var m in currentMushroomList)
-            {
-                m.checkCollision();
             }
 
             foreach (var c in currentCoinList)
@@ -263,17 +256,29 @@ namespace myMario
 
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            if(mario.size == 2)
             {
-                Bullet bullet = new Bullet(Content, mario, "Texture/fireball2Transparent");
-                Bulletslist.Add(bullet);
+                if ((gameTime.TotalGameTime.TotalSeconds - lastBulletTime) >= bulletInterval)
+                {
+                    if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                    {
+                        // Sparare un proiettile
+                        Bullet bullet = new Bullet(Content, mario, "Texture/fireball2Transparent");
+                        Bulletslist.Add(bullet);
+                        lastBulletTime = (float)gameTime.TotalGameTime.TotalSeconds;
+                    }
+                }
+                foreach (var bullet in Bulletslist)
+                {
+                    bullet.move();
+                    bullet.refresh();
+                    foreach (var mon in currentMonsterList)
+                    {
+                        bullet.checkMonsterCollision(mon);
+                    }
+                }
             }
-
-            foreach (var bullet in Bulletslist)
-            {
-                bullet.move();
-                bullet.refresh();
-            }
+            
 
             if (mario.collusingRight == false && mario.cameraRight && Keyboard.GetState().IsKeyDown(Keys.D))
             {
@@ -284,10 +289,6 @@ namespace myMario
                 foreach (var mgnd in currentMushroomGroundList)
                 {
                     mgnd.position.X -= mario.velocity.X;
-                }
-                foreach (var m in currentMushroomList)
-                {
-                    m.position.X -= mario.velocity.X;
                 }
                 foreach (var c in currentCoinList)
                 {
@@ -362,16 +363,13 @@ namespace myMario
 
             _spriteBatch.Draw(background, bgposition, Color.White);
             _spriteBatch.Draw(mario.currenttexture, mario.position, Color.White);
+           
 
-            
             foreach (Ground gnd in currentGroundList)
             {
                 _spriteBatch.Draw(gnd.texture, gnd.position, Color.White);
             }
-            foreach (Mushroom msh in currentMushroomList)
-            {
-                _spriteBatch.Draw(msh.texture, msh.position, Color.White);
-            }
+            
             foreach (var c in currentCoinList)
             {
                 _spriteBatch.Draw(c.texture, c.position, Color.White);
@@ -402,16 +400,6 @@ namespace myMario
                 }
             }
             
-
-            if(mario.size == 2)
-            {   
-                if (mario.isShooting)
-                {
-                   //crea il bullet
-                   
-                }
-            }
-                      
             // TODO: Add your drawing code here
             DrawHud();
             _spriteBatch.End();
@@ -422,13 +410,16 @@ namespace myMario
         private void DrawHud()
         {
             Rectangle titleSafeArea = GraphicsDevice.Viewport.TitleSafeArea;
+            string hudtext = "";
+            Color textColor = Color.Yellow;
             if (mario.lives == 0)
             {
-                string gameOverText = "GAME OVER";
-                Vector2 textSize = hudGameOverFont.MeasureString(gameOverText);
-                Vector2 position = new Vector2((GraphicsDevice.Viewport.Width - textSize.X) / 2, (GraphicsDevice.Viewport.Height - textSize.Y) / 2);
-                DrawShadowedString(hudGameOverFont, gameOverText, position, Color.Red);
+                hudtext = "GAME OVER";
+                textColor = Color.Red;
             }
+            Vector2 textSize = hudGameOverFont.MeasureString(hudtext);
+            Vector2 position = new Vector2((GraphicsDevice.Viewport.Width - textSize.X) / 2, (GraphicsDevice.Viewport.Height - textSize.Y) / 2);
+            DrawShadowedString(hudGameOverFont, hudtext, position, textColor);
             // Draw Life
             DrawShadowedString(hudFont, "LIFE: " + mario.lives.ToString(), new Vector2(0, 0), Color.Yellow);
             // Draw score

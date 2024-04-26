@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Xml;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,7 +26,6 @@ namespace myMario
             height = texture.Height;
             position = new Vector2(x, y);
             boxCollider = new Rectangle((int)position.X, (int)position.Y, width, height);
-
         }
 
         public void refresh()
