@@ -2,12 +2,6 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace myMario
 {
     class Bullet
@@ -20,16 +14,18 @@ namespace myMario
         public Rectangle boxCollider, right, left;
         public Player player;
         public Monster monster;
+        public int direction = 1; // 1 = right, -1 = left
 
-        public Bullet(ContentManager content, Player player, String tex)
+        public Bullet(ContentManager content, Player player, String tex, int direction)
         {
             this.player = player;
             this.content = content;
             texture = content.Load<Texture2D>(tex);
             width = texture.Width;
             height = texture.Height;
-            position = new Vector2(player.position.X, player.position.Y);
+            position = new Vector2(player.position.X, player.position.Y+45);
             boxCollider = new Rectangle((int)position.X, (int)position.Y, width, height);
+            this.direction = direction;
         }
 
         public virtual void refresh()
@@ -47,7 +43,7 @@ namespace myMario
 
         public void move()
         {
-            position.X += speed;
+            position.X += speed * direction;
             refresh();
         }
         public Rectangle getBounds()

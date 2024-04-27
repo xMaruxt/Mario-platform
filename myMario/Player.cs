@@ -72,7 +72,7 @@ namespace myMario
             if (lives == 0)
             {
                 Console.WriteLine("MARIO DIED!");
-                position = new Vector2(0, 480);
+                //position = new Vector2(0, 480);
             }
             else
             {
@@ -514,6 +514,13 @@ namespace myMario
             }
 
             return mario;
+        }
+
+        public void dispose()
+        {
+            position.X = -2000;
+            position.Y = 0;
+            refresh();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace myMario
 {
@@ -19,6 +20,14 @@ namespace myMario
         public int jumpCounter = 0;
         public string name;
         public bool hitByBullet = false;
+
+        private readonly Dictionary<string, int> monsterPoint = new Dictionary<string, int>
+        {
+            { "banzaibill", 200 },
+            { "koopa", 400 },
+            { "bigboo", 800 },
+            { "blargg", 1600 }
+        };
 
         public Monster(ContentManager content, Player player, String tex, int x, int y, string name)
         {
@@ -128,11 +137,13 @@ namespace myMario
                     if (jumpCounter >= 2)
                     {
                         //MONSTER DIED
+
                         player.position.Y -= 60;
                         position.X = -2000;
                         rotation = 3;
                         jumpCounter = 0;
                         player.lives++;
+                        player.score += monsterPoint[name];
                     }
                     else
                     {

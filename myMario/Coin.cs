@@ -16,7 +16,9 @@ namespace myMario
        
         public Coin(ContentManager content, Player player, string tex, int x, int y) : base(content, player, tex, x, y)
         {
+            float volume = 0.1f;
             altin = content.Load<SoundEffect>("Songs/altin");
+            altin.Play(volume, 0, 0);
         }
 
         public override void collect()

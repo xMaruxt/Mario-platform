@@ -7,6 +7,7 @@ namespace myMario
     class CoinGround : MushroomGround
     {
         int counter = 0;
+        Coin c;
         static SoundEffect altin;
         public CoinGround(int sayac, ContentManager content, Player player, string tex, int x, int y) : base(content, player, tex, x, y)
         {
@@ -22,10 +23,14 @@ namespace myMario
                 {
                     counter--;
                     altin.Play(1, 0, 0);
+                    player.collectedPoints += c.PointValue;
+                    player.score += c.PointValue;
+                    player.updatestats(player);
                     if (counter == 0)
                     {
                         texture = off;
                     }
+                    
                 }
                 if (!player.collusingTop)
                 {

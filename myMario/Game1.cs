@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 
 namespace myMario
@@ -37,6 +36,7 @@ namespace myMario
 
         private float lastBulletTime = 0;
         private float bulletInterval = 0.5f;
+        
 
         public Game1()
         {
@@ -56,7 +56,7 @@ namespace myMario
 
             currentMushroomList = new List<Mushroom>
             {
-                //new (Content, mario, "Texture/fungo_60C", 588, 220),
+               // new (Content, mario, "Texture/fungo_60C", 588, 220),
             };
 
             currentGroundList = new List<Ground>
@@ -81,14 +81,26 @@ namespace myMario
 
             //coins on the ground
             currentCoinList = new List<Coin>();
-            for (int i = 0; i< 16; i++)
+            for (int i = 0; i< 17; i++)
             {
-                Coin coin = new Coin(Content, mario, "Texture/coin2", 50 * (i + 1), 552);
+                Coin coin = new Coin(Content, mario, "Texture/coin2", 50 * (i + 1), 551);
+                currentCoinList.Add(coin);
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                Coin coin = new Coin(Content, mario, "Texture/coin2", 990 + (48 * i), 551);
+                currentCoinList.Add(coin);
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                Coin coin = new Coin(Content, mario, "Texture/coin2", 454 +(48 * i) , 397);
                 currentCoinList.Add(coin);
             }
             //special position coins
             currentCoinList.AddRange(new List<Coin>
             {
+                new (Content, mario, "Texture/coin2", 549, 239),
+
                 new (Content, mario, "Texture/coin2", 300, 552),
                 new (Content, mario, "Texture/coin2", 1020, 275),
                 new (Content, mario, "Texture/coin2", 1252, 275),
@@ -140,6 +152,11 @@ namespace myMario
             // TODO: use this.Content to load your game content here
         }
 
+        private void ResetGame()
+        {
+            Initialize();
+            LoadContent();
+        }
         protected override void Update(GameTime gameTime)
         {
             Console.WriteLine("MarioX: " + mario.position.X + " y: " + mario.position.Y + " velx: " + mario.velocity.X);
@@ -206,12 +223,18 @@ namespace myMario
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if(Keyboard.GetState().IsKeyDown(Keys.R))
+            if (Keyboard.GetState().IsKeyDown(Keys.K))
+                mario.lives = 0;
+
+            if(mario.lives == 0)
             {
-                mario.position = new Vector2(0, 600);
-                mario.lives = 3;
-                mario.score = 0;
+                if (Keyboard.GetState().IsKeyDown(Keys.R))
+                {
+                    ResetGame();
+                }
             }
+            
+
             //prevent jump sound looping
             ks1 = Keyboard.GetState();
             if (ks1.IsKeyDown(Keys.W) && !mario.jumping)
@@ -271,7 +294,16 @@ namespace myMario
                     if (Keyboard.GetState().IsKeyDown(Keys.Space))
                     {
                         // Sparare un proiettile
-                        Bullet bullet = new Bullet(Content, mario, "Texture/fireball2Transparent");
+                        int direction;
+                        if (mario.standingR || mario.walkingRight)
+                        {
+                            direction = 1;
+                        }
+                        else
+                        {
+                            direction = -1;
+                        }
+                        Bullet bullet = new Bullet(Content, mario, "Texture/fireball2Transparent", direction);
                         Bulletslist.Add(bullet);
                         lastBulletTime = (float)gameTime.TotalGameTime.TotalSeconds;
                     }
@@ -296,6 +328,10 @@ namespace myMario
                 }
 
                 foreach (var mgnd in currentMushroomGroundList)
+                {
+                    mgnd.position.X -= mario.velocity.X;
+                }
+                foreach (var mgnd in currentMushroomList)
                 {
                     mgnd.position.X -= mario.velocity.X;
                 }
@@ -350,8 +386,7 @@ namespace myMario
 
             if (mario.position.Y > 720)
             {
-                Console.WriteLine("GAME OVER!");
-                mario.position = new Vector2(0, 600);
+                mario.lives = 0;
             }
             // TODO: Add your update logic here
 
@@ -371,9 +406,11 @@ namespace myMario
             }
 
             _spriteBatch.Draw(background, bgposition, Color.White);
-            _spriteBatch.Draw(mario.currenttexture, mario.position, Color.White);
-           
-
+            if(mario.lives > 0)
+            {
+                _spriteBatch.Draw(mario.currenttexture, mario.position, Color.White);
+            }
+            
             foreach (Ground gnd in currentGroundList)
             {
                 _spriteBatch.Draw(gnd.texture, gnd.position, Color.White);
@@ -427,8 +464,9 @@ namespace myMario
             Color textColor = Color.Yellow;
             if (mario.lives == 0)
             {
-                hudtext = "GAME OVER";
+                hudtext = "     GAME OVER" + Environment.NewLine + "Press R to Restart";
                 textColor = Color.Red;
+                mario.dispose();
             }
             Vector2 textSize = hudGameOverFont.MeasureString(hudtext);
             Vector2 position = new Vector2((GraphicsDevice.Viewport.Width - textSize.X) / 2, (GraphicsDevice.Viewport.Height - textSize.Y) / 2);

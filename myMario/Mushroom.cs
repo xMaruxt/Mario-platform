@@ -16,11 +16,12 @@ namespace myMario
             left = new Rectangle((int)position.X, (int)position.Y + 5, 5, height - 10);
             right = new Rectangle((int)position.X + width - 5, (int)position.Y + 5, 5, height - 10);
             grow = content.Load<SoundEffect>("Songs/grow");
+           
         }
 
         public override void collect()
         {
-            player.size = 1;
+            player.size++;
             grow.Play(1, 0, 0);
         }
 
