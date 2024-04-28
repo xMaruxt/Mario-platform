@@ -229,19 +229,19 @@ namespace myMario
 
             foreach (var gnd in currentGroundList)
             {
-                gnd.checkCollision();
+                gnd.CheckCollision();
                 foreach (var mon in currentMonsterList)
                 {
-                    gnd.checkMonsterCollision(mon);
+                    gnd.CheckMonsterCollision(mon);
                 }
             }
 
             foreach (var mgnd in currentMushroomGroundList)
             {
-                mgnd.checkCollision();
+                mgnd.CheckCollision();
                 foreach (var mon in currentMonsterList)
                 {
-                    mgnd.checkMonsterCollision(mon);
+                    mgnd.CheckMonsterCollision(mon);
                 }
             }
             foreach (var m in currentMushroomList)
@@ -254,10 +254,10 @@ namespace myMario
             }
             foreach (var ck in currentCoinGroundList)
             {
-                ck.checkCollision();
+                ck.CheckCollision();
                 foreach (var mon in currentMonsterList)
                 {
-                    ck.checkMonsterCollision(mon);
+                    ck.CheckMonsterCollision(mon);
                 }
             }
             foreach (var mon in currentMonsterList)
@@ -362,16 +362,19 @@ namespace myMario
                 }
                 foreach (Bullet bullet in Bulletslist)
                 {
-                    bullet.move();
-                    bullet.refresh();
+                    bullet.Move();
+                    bullet.Refresh();
                     foreach (var mon in currentMonsterList)
                     {
-                        bullet.checkMonsterCollision(mon);
+                        bullet.CheckMonsterCollision(mon);
+                    }
+                    foreach (var gnd in currentGroundList)
+                    {
+                        bullet.CheckPipeCollision(gnd);
                     }
                 }
             }
             
-
             if (mario.collusingRight == false && mario.cameraRight && Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 foreach (var gnd in currentGroundList)
@@ -417,9 +420,11 @@ namespace myMario
                     mario.size = 0;
                 }
             }
+
             mario.findState('n');
-           // mario.myState();
+          
             mario.gravity();
+
             if (mario.velocity.X > 6)
             {
                 mario.velocity.X = 6;
@@ -527,8 +532,6 @@ namespace myMario
             DrawShadowedString(hudFont, "LIFE: " + mario.lives.ToString(), new Vector2(0, 0), Color.Yellow);
             // Draw score
             DrawShadowedString(hudFont, "SCORE: " + mario.score.ToString(), new Vector2(0,20), Color.Yellow);
-
-
         }
         private void DrawShadowedString(SpriteFont font, string value, Vector2 position, Color color)
         {

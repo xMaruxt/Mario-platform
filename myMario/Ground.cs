@@ -16,6 +16,8 @@ namespace myMario
         public int width, height;
         public Rectangle boxCollider;
 
+        public Rectangle bounds, right, left, top;
+
 
         public Ground(ContentManager content, Player player, String tex, int x, int y)
         {
@@ -26,17 +28,22 @@ namespace myMario
             height = texture.Height;
             position = new Vector2(x, y);
             boxCollider = new Rectangle((int)position.X, (int)position.Y, width, height);
+            if (tex.Contains("pipe"))
+            {
+                left = new Rectangle((int)position.X, (int)position.Y, 5, height);
+                right = new Rectangle((int)position.X + width - 5, (int)position.Y, 5, height);
+            }
         }
 
-        public void refresh()
+        public void Refresh()
         {
             boxCollider.X = (int)position.X;
             boxCollider.Y = (int)position.Y;
         }
 
-        public void newBot()
+        public void NewBot()
         {
-            refresh();
+            Refresh();
             if (boxCollider.Intersects(player.getBot()))
             {
                 player.velocity.Y = 0;
@@ -50,9 +57,9 @@ namespace myMario
             }
         }
 
-        public virtual void newTop()
+        public virtual void NewTop()
         {
-            refresh();
+            Refresh();
             if (boxCollider.Intersects(player.getT()))
             {
                 if (!player.collusingTop)
@@ -70,9 +77,9 @@ namespace myMario
             }
         }
 
-        public void newLeft()
+        public void NewLeft()
         {
-            refresh();
+            Refresh();
 
             if (boxCollider.Intersects(player.getL()))
             {
@@ -88,9 +95,9 @@ namespace myMario
             }
         }
 
-        public void newRight()
+        public void NewRight()
         {
-            refresh();
+            Refresh();
             if (boxCollider.Intersects(player.getR()))
             {
                 if (!player.collusingRight)
@@ -105,9 +112,9 @@ namespace myMario
                 player.collusingRight = false;
             }
         }
-        public void checkMonsterCollision(Monster mon)
+        public void CheckMonsterCollision(Monster mon)
         {
-            refresh();
+            Refresh();
             if (boxCollider.Intersects(mon.getLeft()))
             {
                 mon.rotation = 0;
@@ -119,14 +126,28 @@ namespace myMario
             }
         }
 
-
-        public void checkCollision()
+        public void CheckCollision()
         {
-            newBot();
-            newTop();
-            newRight();
-            newLeft();
+            NewBot();
+            NewTop();
+            NewRight();
+            NewLeft();
         }
 
+        public Rectangle GetBounds()
+        {
+            Refresh();
+            return bounds;
+        }
+        public Rectangle GetLeft()
+        {
+            Refresh();
+            return left;
+        }
+        public Rectangle GetRight()
+        {
+            Refresh();
+            return right;
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace myMario
         public Vector2 position;
         public int width, height;
         public int speed = 10;
-        public Rectangle boxCollider, right, left;
+        public Rectangle boxCollider;
         public Player player;
         public Monster monster;
         public int direction = 1; // 1 = right, -1 = left
@@ -25,58 +25,65 @@ namespace myMario
             height = texture.Height;
             position = new Vector2(player.position.X, player.position.Y+45);
             boxCollider = new Rectangle((int)position.X, (int)position.Y, width, height);
+
             this.direction = direction;
         }
 
-        public virtual void refresh()
+        public virtual void Refresh()
         {
             boxCollider.X = (int)position.X;
             boxCollider.Y = (int)position.Y;
         }
 
-        public void dispose()
+        public void Dispose()
         {
             position.X = -2000;
             position.Y = 0;
-            refresh();
+            Refresh();
         }
 
-        public void move()
+        public void Move()
         {
             position.X += speed * direction;
-            refresh();
+            Refresh();
         }
-        public Rectangle getBounds()
+        public Rectangle GetBounds()
         {
-            refresh();
+            Refresh();
             return boxCollider;
         }
-        public void checkMonsterCollision(Monster mon)
+        public void CheckMonsterCollision(Monster mon)
         {
-            refresh();
+            Refresh();
             if (boxCollider.Intersects(mon.getLeft()))
             {
                mon.hitByBullet = true;
-               dispose();
+               Dispose();
                speed = 0;
             }
 
             if (boxCollider.Intersects(mon.getRight()))
             {
                 mon.hitByBullet = true;
-                dispose();
+                Dispose();
                 speed = 0;
             }
         }
 
-        //public void checkPipeCollision(Ground pipe)
-        //{
-        //    refresh();
-        //    if (boxCollider.Intersects(pipe.checkCollision()))
-        //    {
-        //        dispose();
-        //        speed = 0;
-        //    }
-        //}
+        public void CheckPipeCollision(Ground pipe)
+        {
+            Refresh();
+            if (boxCollider.Intersects(pipe.GetLeft()))
+            {
+                Dispose();
+                speed = 0;
+            }
+
+            if (boxCollider.Intersects(pipe.GetRight()))
+            {
+                Dispose();
+                speed = 0;
+            }
+        }
     }
 }

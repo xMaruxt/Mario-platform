@@ -13,9 +13,9 @@ namespace myMario
             counter = sayac;
             altin = content.Load<SoundEffect>("Songs/altin");
         }
-        public override void newTop()
+        public override void NewTop()
         {
-            refresh();
+            Refresh();
             if (boxCollider.Intersects(player.getT()))
             {
                 if (counter > 0)
