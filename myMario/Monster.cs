@@ -21,12 +21,12 @@ namespace myMario
         public string name;
         public bool hitByBullet = false;
 
-        private readonly Dictionary<string, int> monsterPoint = new Dictionary<string, int>
+        private readonly Dictionary<string, Tuple<int, int>> monsterAtrtb = new Dictionary<string, Tuple<int,int>>
         {
-            { "banzaibill", 200 },
-            { "koopa", 400 },
-            { "bigboo", 800 },
-            { "blargg", 1600 }
+            { "banzaibill", new Tuple<int, int>(200, 5) },
+            { "koopa", new Tuple<int, int>(400, 4) },
+            { "bigboo", new Tuple<int, int>(800, 3) },
+            { "blargg", new Tuple<int, int>(1600, 2) }
         };
 
         public Monster(ContentManager content, Player player, String tex, int x, int y, string name)
@@ -72,49 +72,13 @@ namespace myMario
         public void move(string name)
         {
             //change velocity by name
-            if (name == "banzaibill")
+            if (rotation == 0)
             {
-                if (rotation == 0)
-                {
-                    position.X += 8;                    
-                }
-                if (rotation == 1)
-                {
-                    position.X -= 8;
-                }
+                position.X += monsterAtrtb[name].Item2;
             }
-            if (name == "koopa")
+            if (rotation == 1)
             {
-                if (rotation == 0)
-                {
-                    position.X += 7;
-                }
-                if (rotation == 1)
-                {
-                    position.X -= 7;
-                }
-            }
-            if (name == "bigboo")
-            {
-                if (rotation == 0)
-                {
-                    position.X += 5;
-                }
-                if (rotation == 1)
-                {
-                    position.X -= 5;
-                }
-            }
-            if (name == "blargg")
-            {
-                if (rotation == 0)
-                {
-                    position.X += 4;
-                }
-                if (rotation == 1)
-                {
-                    position.X -= 4;
-                }
+                position.X -= monsterAtrtb[name].Item2;
             }
         }
 
@@ -125,7 +89,7 @@ namespace myMario
             return bounds;
         }
 
-        public void checkCollision()
+        public void checkCollision(string name)
         {
             refbounds();
             refresh();
@@ -143,7 +107,7 @@ namespace myMario
                         rotation = 3;
                         jumpCounter = 0;
                         player.lives++;
-                        player.score += monsterPoint[name];
+                        player.score += monsterAtrtb[name].Item1;
                     }
                     else
                     {

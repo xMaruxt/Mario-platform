@@ -21,7 +21,7 @@ namespace myMario
 
         public override void collect()
         {
-            player.size++;
+            player.size = 2;
             grow.Play(1, 0, 0);
         }
 

@@ -68,5 +68,15 @@ namespace myMario
                 speed = 0;
             }
         }
+
+        //public void checkPipeCollision(Ground pipe)
+        //{
+        //    refresh();
+        //    if (boxCollider.Intersects(pipe.checkCollision()))
+        //    {
+        //        dispose();
+        //        speed = 0;
+        //    }
+        //}
     }
 }

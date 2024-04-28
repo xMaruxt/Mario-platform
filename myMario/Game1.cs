@@ -36,7 +36,7 @@ namespace myMario
 
         private float lastBulletTime = 0;
         private float bulletInterval = 0.5f;
-        
+
 
         public Game1()
         {
@@ -64,6 +64,7 @@ namespace myMario
                 new (Content, mario, "Texture/terrain", 0, 600),
                 new (Content, mario, "Texture/terrain", 1280, 600),
                 new (Content, mario, "Texture/terrain", 2560, 600),
+                new (Content, mario, "Texture/terrain", 3840, 600),
                 new (Content, mario, "Texture/kutular", 500, 440),
                 new (Content, mario, "Texture/kutular", 1250, 320),
                 new (Content, mario, "Texture/kutular", 1530, 440),
@@ -72,10 +73,14 @@ namespace myMario
                 new (Content, mario, "Texture/kutular", 2500, 320),
                 new (Content, mario, "Texture/kutular", 2700, 270),
                 new (Content, mario, "Texture/kutular", 3090, 350),
+                new (Content, mario, "Texture/kutular", 3301, 250),
+                new (Content, mario, "Texture/kutular", 3599, 290),
                 new (Content, mario, "Texture/pipe", 900, 482),
                 new (Content, mario, "Texture/pipe", 1100, 482),
                 new (Content, mario, "Texture/pipe", 2970, 482),
                 new (Content, mario, "Texture/pipe", 3400, 482),
+                new (Content, mario, "Texture/pipe", 4130, 482),
+                new (Content, mario, "Texture/pipe", 4950, 482),
                 new (Content, mario, "Texture/pipe_mini", 2170, 514),
             };
 
@@ -83,12 +88,12 @@ namespace myMario
             currentCoinList = new List<Coin>();
             for (int i = 0; i< 17; i++)
             {
-                Coin coin = new Coin(Content, mario, "Texture/coin2", 50 * (i + 1), 551);
+                Coin coin = new (Content, mario, "Texture/coin2", 50 * (i + 1), 551);
                 currentCoinList.Add(coin);
             }
             for (int i = 0; i < 2; i++)
             {
-                Coin coin = new Coin(Content, mario, "Texture/coin2", 990 + (48 * i), 551);
+                Coin coin = new (Content, mario, "Texture/coin2", 990 + (48 * i), 551);
                 currentCoinList.Add(coin);
             }
             for (int i = 0; i < 5; i++)
@@ -96,14 +101,61 @@ namespace myMario
                 Coin coin = new Coin(Content, mario, "Texture/coin2", 454 +(48 * i) , 397);
                 currentCoinList.Add(coin);
             }
+            for(int i = 0; i<4; i++)
+            {
+                Coin coin = new (Content, mario, "Texture/coin2", 1252 + (48 * i), 275);
+                currentCoinList.Add(coin);
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                Coin coin = new (Content, mario, "Texture/coin2", 1530 + (48 * i), 397);
+                currentCoinList.Add(coin);
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                Coin coin = new (Content, mario, "Texture/coin2", 1925 + (48 * i), 359);
+                currentCoinList.Add(coin);
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                Coin coin = new(Content, mario, "Texture/coin2", 2304 + (48 * i), 325);
+                currentCoinList.Add(coin);
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                Coin coin = new(Content, mario, "Texture/coin2", 2500 + (48 * i), 278);  
+                currentCoinList.Add(coin);
+            }
+            //x più è alto il numero più è in alto il coin
+            for (int i = 0; i < 4; i++)
+            {
+                Coin coin = new(Content, mario, "Texture/coin2", 2702 + (48 * i), 231);
+                currentCoinList.Add(coin);
+            }
+            for (int i = 0; i < 15; i++)
+            {
+                Coin coin = new(Content, mario, "Texture/coin2", 2255 + (48 * i), 551);
+                currentCoinList.Add(coin);
+            }
+            for (int i = 0; i < 7; i++)
+            {
+                Coin coin = new(Content, mario, "Texture/coin2", 3060 + (48 * i), 551);
+                currentCoinList.Add(coin);
+            }
+            for (int i = 0; i < 15; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    Coin coin = new(Content, mario, "Texture/coin2", 4220 + (48 * i), 551 - (60 * j));
+                    currentCoinList.Add(coin);
+                }
+            }
             //special position coins
             currentCoinList.AddRange(new List<Coin>
             {
                 new (Content, mario, "Texture/coin2", 549, 239),
-
                 new (Content, mario, "Texture/coin2", 300, 552),
                 new (Content, mario, "Texture/coin2", 1020, 275),
-                new (Content, mario, "Texture/coin2", 1252, 275),
             });
            
 
@@ -127,7 +179,8 @@ namespace myMario
                new (Content, mario, "Texture/banzaibill_60", 1450, 540, "banzaibill"),
                new (Content, mario, "Texture/koopa_60", 1650, 540, "koopa"),
                new (Content, mario, "Texture/bigbooR", 1850, 540, "bigboo"),
-               new (Content, mario, "Texture/blargg_120R", 2070, 480, "blargg"),   
+               new (Content, mario, "Texture/blargg_120R", 2070, 480, "blargg"),
+               new (Content, mario, "Texture/blargg_120R", 4000, 480, "blargg"),
             };
 
             base.Initialize();
@@ -137,7 +190,6 @@ namespace myMario
         {
            
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            
             background = Content.Load<Texture2D>("Texture/back");
             song = Content.Load<Song>("Songs/backmusic");
             MediaPlayer.IsRepeating = true;
@@ -210,7 +262,7 @@ namespace myMario
             }
             foreach (var mon in currentMonsterList)
             {
-                mon.checkCollision();
+                mon.checkCollision(mon.name);
             }
 
 
@@ -308,7 +360,7 @@ namespace myMario
                         lastBulletTime = (float)gameTime.TotalGameTime.TotalSeconds;
                     }
                 }
-                foreach (var bullet in Bulletslist)
+                foreach (Bullet bullet in Bulletslist)
                 {
                     bullet.move();
                     bullet.refresh();
@@ -406,7 +458,8 @@ namespace myMario
             }
 
             _spriteBatch.Draw(background, bgposition, Color.White);
-            if(mario.lives > 0)
+           
+            if (mario.lives > 0)
             {
                 _spriteBatch.Draw(mario.currenttexture, mario.position, Color.White);
             }
@@ -459,7 +512,6 @@ namespace myMario
 
         private void DrawHud()
         {
-            Rectangle titleSafeArea = GraphicsDevice.Viewport.TitleSafeArea;
             string hudtext = "";
             Color textColor = Color.Yellow;
             if (mario.lives == 0)
